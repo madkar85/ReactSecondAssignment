@@ -1,0 +1,18 @@
+.navbar{
+    
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 5em;
+    background-color: lightblue;
+    max-height: 10em;
+       
+}
+
+.home{
+    padding: 2em;
+}
+
+.poke{
+    padding: 2em;
+}
