@@ -1,33 +1,51 @@
-import React from 'react';
-import Axios from 'axios';
-import { useState } from 'react';
-import { useLocation } from 'react-router';
-
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import { useHistory } from "react-router";
+import RoutingPath from "../../routes/RoutingPath";
+import PokemonAPIService from "../../shared/api/service/PokemonAPIService";
+import "./PokeView.css";
 
 export const PokeView = () => {
-    const [serverResponse, setServerResponse] = useState();
-    const [count, setCount] = useState(1);
-    const { phrase } = useLocation();
-    
+  const [serverData, setServerData] = useState();
+  const { phrase } = useLocation();
+  const history = useHistory();
 
-    const fetchData = async () => {
-        const API_URL = `https://pokeapi.co/api/v2/pokemon/${count}`;
-        try {
-            const response = await Axios.get(API_URL);
-            setServerResponse(response);
-            setCount(count + 1);
-        } catch(error) {
-            alert("Error when retrieving data: " + error);
+  const fetchData = async () => {
+    const { data } = await PokemonAPIService.getAllPokemon();
+    setServerData(data);
+  };
 
-        }
-    };
+  useEffect(() => {
+    fetchData();
+  }, [])
 
-    return (
-        <div>
-            <h1>{phrase}</h1>
-            <h1>You are in Poke View</h1>
-            <h2>{serverResponse?.data?.name}</h2>
-            <button onClick={() => fetchData()}>Get a pokemon</button>
-        </div>
-    );
-}
+  const location = {
+    pathname: "/home",
+    state: "ett state",
+  };
+
+  const displayData = () => {
+    return serverData?.results.map((pokemon, i) => (
+      <div key={pokemon.name}>
+        <h3>
+          {i + 1}.{pokemon.name}
+        </h3>
+        <button
+          onClick={() =>
+            history.push({ pathname: RoutingPath.infoView, state: pokemon })
+          }
+        >
+          Mer information
+        </button>
+      </div>
+    ));
+  };
+
+  return (
+    <div>
+      <h1>{phrase}</h1>
+      <h1>Here´s a list of our pokemons</h1>
+      {displayData()};
+    </div>
+  );
+};

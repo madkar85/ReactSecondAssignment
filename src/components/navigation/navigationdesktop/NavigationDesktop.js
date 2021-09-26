@@ -8,7 +8,7 @@ export const NavigationDesktop = () => {
         <div>
             <nav className="navbar">
                 <Link className="home" to={RoutingPath.homeView}>Home</Link>
-                <Link className="poke" to={{ pathname: RoutingPath.pokeView, phrase: "Hello!" }}>Poke</Link>
+                <Link className="poke" to={RoutingPath.pokeView}>Poke</Link>
             </nav>
            
         </div>

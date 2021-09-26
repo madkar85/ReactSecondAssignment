@@ -6,6 +6,9 @@
     height: 5em;
     background-color: lightblue;
     max-height: 10em;
+    border-style: solid;
+    border-color: white;
+    
        
 }
 
